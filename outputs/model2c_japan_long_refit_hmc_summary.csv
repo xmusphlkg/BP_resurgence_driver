@@ -1,0 +1,2 @@
+iso3,tag,n_chains,post_warmup_draws_per_chain,total_divergent_transitions,total_treedepth_15_saturations,minimum_ebfmi,max_core_rhat,min_core_ess_bulk,min_core_ess_tail,max_core_mcse,max_core_relative_mcse,passes_hmc_gate
+JPN,jpn_long_refit,4,1000,0,0,0.7990086808593169,1.00287,703.29,1396.28,0.129099,0.04093896928270428,True

@@ -1,0 +1,15 @@
+run_id,iso3,scenario_id,replicate,mechanism,parameter,truth,rope_half_width,truth_active,posterior_active_probability,posterior_inactive_probability,classification,discrimination_correct
+BRA_multi_mechanism_r001,BRA,multi_mechanism,1,post_reporting_shift,log_post_reporting_multiplier,-0.24040602,0.04879016416943205,True,0.94125,0.04425,active,True
+BRA_multi_mechanism_r001,BRA,multi_mechanism,1,post_transmission_shift,log_post_transmission_multiplier,-0.60316291,0.04879016416943205,True,0.972,0.0235,active,True
+BRA_reporting_only_r001,BRA,reporting_only,1,post_reporting_shift,log_post_reporting_multiplier,-0.24040602,0.04879016416943205,True,0.48125,0.2445,ambiguous,False
+BRA_reporting_only_r001,BRA,reporting_only,1,post_transmission_shift,log_post_transmission_multiplier,0.0,0.04879016416943205,False,0.60425,0.208,ambiguous,False
+BRA_transmission_only_r001,BRA,transmission_only,1,post_reporting_shift,log_post_reporting_multiplier,0.0,0.04879016416943205,False,0.85625,0.09825,active,False
+BRA_transmission_only_r001,BRA,transmission_only,1,post_transmission_shift,log_post_transmission_multiplier,-0.60316291,0.04879016416943205,True,0.96,0.03375,active,True
+BRA_null_both_r001,BRA,null_both,1,post_reporting_shift,log_post_reporting_multiplier,0.0,0.04879016416943205,False,0.4185,0.24725,ambiguous,False
+BRA_null_both_r001,BRA,null_both,1,post_transmission_shift,log_post_transmission_multiplier,0.0,0.04879016416943205,False,0.41875,0.26625,ambiguous,False
+BRA_multi_mechanism_r002,BRA,multi_mechanism,2,post_reporting_shift,log_post_reporting_multiplier,-0.65250873,0.04879016416943205,True,0.98275,0.0155,active,True
+BRA_multi_mechanism_r002,BRA,multi_mechanism,2,post_transmission_shift,log_post_transmission_multiplier,-0.39704291,0.04879016416943205,True,0.98725,0.0115,active,True
+BRA_reporting_only_r002,BRA,reporting_only,2,post_reporting_shift,log_post_reporting_multiplier,-0.65250873,0.04879016416943205,True,0.96375,0.0295,active,True
+BRA_reporting_only_r002,BRA,reporting_only,2,post_transmission_shift,log_post_transmission_multiplier,0.0,0.04879016416943205,False,0.969,0.0245,active,False
+BRA_transmission_only_r002,BRA,transmission_only,2,post_reporting_shift,log_post_reporting_multiplier,0.0,0.04879016416943205,False,0.61,0.2035,ambiguous,False
+BRA_transmission_only_r002,BRA,transmission_only,2,post_transmission_shift,log_post_transmission_multiplier,-0.39704291,0.04879016416943205,True,0.5765,0.232,ambiguous,False

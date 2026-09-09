@@ -1,0 +1,4 @@
+frontier_type,threshold_direction,parameter_units,grid_min,grid_max,operational_threshold,conservative_threshold,frontier_version
+testing_log_sd,maximum,log-scale SD,0.1,4.0,1.5,1.5,model2c_surveillance_precision_frontier_v1_20260726
+severe_baseline_events,minimum,expected baseline events per country-year,0.1,200.0,0.25,0.5,model2c_surveillance_precision_frontier_v1_20260726
+severe_annual_log_sd,maximum,annual log-scale SD,0.1,2.0,1.5,1.0,model2c_surveillance_precision_frontier_v1_20260726

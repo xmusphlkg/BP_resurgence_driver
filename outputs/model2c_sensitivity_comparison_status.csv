@@ -1,0 +1,11 @@
+tag,suite,expected_countries,run_status,description,fit_file_state,fit_countries_found,fit_countries_missing,fit_read_detail,scenario_file_state,scenario_countries_found,scenario_countries_missing,scenario_read_detail,observation_file_state,observation_countries_found,observation_countries_missing,observation_read_detail,max_rhat,min_ess_bulk,posterior_draws_min,diagnostic_status
+contact_upper_7,contact,3,complete,Contact-sensitivity upper-bound sensitivity at 7.0 for boundary-focus countries.,ready,3,,,ready,3,,,ready,3,,,1.01274,482.089,2000.0,fail_or_unavailable
+contact_upper_10,contact,3,complete,Contact-sensitivity upper-bound sensitivity at 10.0 for boundary-focus countries.,ready,3,,,ready,3,,,ready,3,,,1.00773,800.131,2000.0,pass
+reporting_weak,reporting,4,complete,Weak post-2023 reporting-prior sensitivity for reporting-boundary countries.,ready,4,,,ready,4,,,ready,4,,,1.00976,383.791,2000.0,fail_or_unavailable
+reporting_null,reporting,4,complete,Tight null reporting-prior sensitivity for reporting-boundary countries.,ready,4,,,ready,4,,,ready,4,,,1.0081,502.51,2000.0,pass
+reporting_direct,reporting,4,complete,Direct-evidence reporting-prior sensitivity where denominator evidence is available.,ready,4,,,ready,4,,,ready,4,,,1.0094,774.374,2000.0,pass
+waning_low,waning,9,complete,Longer-protection waning-prior sensitivity across modelled countries.,ready,9,,,ready,9,,,ready,9,,,1.02115,226.498,2000.0,fail_or_unavailable
+waning_high,waning,9,complete,Shorter-protection waning-prior sensitivity across modelled countries.,ready,9,,,ready,9,,,ready,9,,,1.01521,281.702,2000.0,fail_or_unavailable
+objective_unit_weights,objective,9,complete,Unit-weight monthly and annual-age composite-objective sensitivity across modelled countries.,ready,9,,,ready,9,,,ready,9,,,1.01472,572.723,2000.0,fail_or_unavailable
+age_exclude_split_bins,age,9,complete,Age-observation sensitivity excluding source bins split across shared model age groups.,ready,9,,,ready,9,,,ready,9,,,1.02059,218.294,2000.0,fail_or_unavailable
+temporal_fit_2022,temporal,9,complete,Pre-resurgence fit through 2022 with 2023-2026 observations reserved for temporal checks.,ready,9,,,ready,9,,,ready,9,,,1.02114,675.422,2000.0,fail_or_unavailable

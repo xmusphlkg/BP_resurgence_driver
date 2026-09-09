@@ -1,0 +1,9 @@
+suite,metric,n_tags_compared,n_countries_compared,n_comparisons,median_absolute_relative_change_pct,max_absolute_relative_change_pct,direction_consistency,prior_dependence_class,complete_tags,expected_tags
+likelihood_structure,excess_epidemic_pressure_scale_median,1,9,9,0.6528609501948276,24.200465122435432,mixed,moderate,1,1
+likelihood_structure,full_minus_scenario_median,1,9,3757,2.7677412642791266,386005.3394738043,mixed,strong,1,1
+likelihood_structure,outbreak_ignition_pulse_gain_median,1,9,9,2.376349612128652,56.759898110120275,mixed,strong,1,1
+likelihood_structure,post_reporting_multiplier_median,1,9,9,0.7242844046283656,2.6645908699759646,decreased,low,1,1
+likelihood_structure,post_reporting_peak_multiplier_median,1,9,9,1.4431429263597813,11.555467338526169,mixed,limited,1,1
+likelihood_structure,post_reporting_trend_per_year_median,1,9,9,12.701722014485638,730.9887774756303,mixed,strong,1,1
+likelihood_structure,post_transmission_multiplier_median,1,9,9,1.056241263409296,3.0783053978706083,mixed,low,1,1
+likelihood_structure,scenario_to_full_ratio_median,1,9,3751,0.031558802356846924,35.57939046542084,mixed,moderate,1,1

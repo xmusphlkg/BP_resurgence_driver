@@ -1,0 +1,3 @@
+country,iso3,period_start,period_end,age_group,recommended_test,total_tests,serology_tests,serology_percent,source_ids,source,source_type,notes
+Netherlands,NLD,2010-01-01,2013-12-31,<1 year,PCR or culture,303,134,44,NLD_HEIL_2017_AGE_STRATIFIED_TESTING_2010_2013,https://pubmed.ncbi.nlm.nih.gov/28749331/,curated_age_stratified_testing_summary,"Infants younger than 1 year were recommended PCR or culture, but 44% nevertheless received serology in practice."
+Netherlands,NLD,2010-01-01,2013-12-31,>1 year with >3 weeks of coughing,Serology,11787,11056,94,NLD_HEIL_2017_AGE_STRATIFIED_TESTING_2010_2013,https://pubmed.ncbi.nlm.nih.gov/28749331/,curated_age_stratified_testing_summary,Older patients with prolonged cough were predominantly tested by serology.

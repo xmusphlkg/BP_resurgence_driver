@@ -1,0 +1,33 @@
+# One-parameter surveillance precision frontiers
+
+| frontier_type | parameter_value | auc | auc_lower_95 | auc_upper_95 | n_countries_auc_ge_0_70 | operational_success | conservative_success |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| testing_log_sd | 0.100 | 0.989 | 0.986 | 0.992 | 9 | True | True |
+| testing_log_sd | 0.200 | 0.986 | 0.983 | 0.988 | 9 | True | True |
+| testing_log_sd | 0.350 | 0.977 | 0.972 | 0.981 | 9 | True | True |
+| testing_log_sd | 0.500 | 0.963 | 0.956 | 0.969 | 9 | True | True |
+| testing_log_sd | 0.750 | 0.928 | 0.920 | 0.936 | 9 | True | True |
+| testing_log_sd | 1.000 | 0.888 | 0.878 | 0.899 | 9 | True | True |
+| testing_log_sd | 1.500 | 0.814 | 0.801 | 0.826 | 8 | True | True |
+| testing_log_sd | 2.000 | 0.757 | 0.742 | 0.773 | 7 | False | False |
+| testing_log_sd | 3.000 | 0.684 | 0.669 | 0.699 | 4 | False | False |
+| testing_log_sd | 4.000 | 0.642 | 0.626 | 0.657 | 2 | False | False |
+| severe_baseline_events | 0.100 | 0.695 | 0.680 | 0.709 | 5 | False | False |
+| severe_baseline_events | 0.250 | 0.803 | 0.791 | 0.816 | 8 | True | False |
+| severe_baseline_events | 0.500 | 0.862 | 0.850 | 0.873 | 8 | True | True |
+| severe_baseline_events | 1.000 | 0.911 | 0.901 | 0.920 | 9 | True | True |
+| severe_baseline_events | 2.000 | 0.936 | 0.928 | 0.944 | 9 | True | True |
+| severe_baseline_events | 5.000 | 0.962 | 0.956 | 0.968 | 9 | True | True |
+| severe_baseline_events | 10.000 | 0.976 | 0.971 | 0.980 | 9 | True | True |
+| severe_baseline_events | 20.000 | 0.983 | 0.979 | 0.987 | 9 | True | True |
+| severe_baseline_events | 50.000 | 0.989 | 0.986 | 0.991 | 9 | True | True |
+| severe_baseline_events | 100.000 | 0.990 | 0.987 | 0.992 | 9 | True | True |
+| severe_baseline_events | 200.000 | 0.991 | 0.988 | 0.993 | 9 | True | True |
+| severe_annual_log_sd | 0.100 | 0.993 | 0.990 | 0.994 | 9 | True | True |
+| severe_annual_log_sd | 0.200 | 0.989 | 0.985 | 0.991 | 9 | True | True |
+| severe_annual_log_sd | 0.350 | 0.979 | 0.974 | 0.982 | 9 | True | True |
+| severe_annual_log_sd | 0.500 | 0.966 | 0.961 | 0.972 | 9 | True | True |
+| severe_annual_log_sd | 0.750 | 0.932 | 0.923 | 0.940 | 9 | True | True |
+| severe_annual_log_sd | 1.000 | 0.890 | 0.878 | 0.899 | 9 | True | True |
+| severe_annual_log_sd | 1.500 | 0.809 | 0.796 | 0.822 | 8 | True | False |
+| severe_annual_log_sd | 2.000 | 0.747 | 0.733 | 0.761 | 6 | False | False |

@@ -1,0 +1,5 @@
+chain,post_warmup_draws,divergent_transitions,max_treedepth_observed,treedepth_15_saturations,ebfmi,passes_ebfmi_ge_0_3
+1,1000,0,10,0,0.8586565309569879,True
+2,1000,0,9,0,0.7990086808593169,True
+3,1000,0,9,0,0.9548124568252165,True
+4,1000,0,8,0,0.8780220904356406,True

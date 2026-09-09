@@ -1,0 +1,32 @@
+scope,iso3,country,overlap_years,mean_ecdc_to_who_ratio,median_ecdc_to_who_ratio,mean_absolute_relative_difference,within_factor2_fraction,ecdc_year_min,ecdc_year_max,comparison_note
+all_overlaps,ALL,All overlapping EU/EEA country-years,599,1.0995395305158584,1.0,0.18455412164000337,0.9048414023372288,1998,2022,Aggregate concordance summary for overlapping ECDC/WHO country-year rows.
+country,AUT,Austria,24,1.0049677831618187,1.0,0.0172004094834748,1.0,1998,2022,Country-level concordance summary for overlapping ECDC/WHO annual rows.
+country,BEL,Belgium,16,0.9245867256843218,0.8321442291861039,0.276293747864321,0.9375,2006,2022,Country-level concordance summary for overlapping ECDC/WHO annual rows.
+country,BGR,Bulgaria,20,1.0131932773109242,1.0,0.01319327731092437,1.0,2003,2022,Country-level concordance summary for overlapping ECDC/WHO annual rows.
+country,CYP,Cyprus,20,1.0098039215686274,1.0,0.04901960784313725,0.85,2003,2022,Country-level concordance summary for overlapping ECDC/WHO annual rows.
+country,CZE,Czechia,20,0.996993516083057,1.0,0.005134143491411102,1.0,2003,2022,Country-level concordance summary for overlapping ECDC/WHO annual rows.
+country,DEU,Germany,9,0.9741156955400149,0.9803425774877651,0.02678258176238841,1.0,2014,2022,Country-level concordance summary for overlapping ECDC/WHO annual rows.
+country,DNK,Denmark,23,3.2364950554217415,4.595,2.239743208552517,0.4782608695652174,2000,2022,Country-level concordance summary for overlapping ECDC/WHO annual rows.
+country,ESP,Spain,21,0.7850813264189833,0.8370809484873263,0.2534757915530644,0.8571428571428571,1998,2022,Country-level concordance summary for overlapping ECDC/WHO annual rows.
+country,EST,Estonia,20,1.0137014314928425,1.0,0.013701431492842536,1.0,2003,2022,Country-level concordance summary for overlapping ECDC/WHO annual rows.
+country,FIN,Finland,18,1.0571392660654184,1.0,0.05713926606541833,1.0,2003,2022,Country-level concordance summary for overlapping ECDC/WHO annual rows.
+country,FRA,France,8,0.792443095128669,0.6498533724340176,0.48880690487133105,0.625,2006,2022,Country-level concordance summary for overlapping ECDC/WHO annual rows.
+country,GBR,United Kingdom,21,0.947769242293824,0.9998796808323644,0.23135034780769276,0.7619047619047619,1998,2019,Country-level concordance summary for overlapping ECDC/WHO annual rows.
+country,GRC,Greece,23,1.0203505251735154,1.0,0.03409140970320199,0.9565217391304348,1998,2022,Country-level concordance summary for overlapping ECDC/WHO annual rows.
+country,HRV,Croatia,18,0.8861615325806111,1.0,0.12675607449094256,0.8888888888888888,2003,2022,Country-level concordance summary for overlapping ECDC/WHO annual rows.
+country,HUN,Hungary,20,0.9912280701754387,1.0,0.008771929824561403,0.95,2003,2022,Country-level concordance summary for overlapping ECDC/WHO annual rows.
+country,IRL,Ireland,24,1.0019773785964,1.0,0.00767242429144573,1.0,1998,2022,Country-level concordance summary for overlapping ECDC/WHO annual rows.
+country,ISL,Iceland,21,0.8671287593984962,1.0,0.14837875939849623,0.7142857142857143,2000,2022,Country-level concordance summary for overlapping ECDC/WHO annual rows.
+country,ITA,Italy,20,1.7939856021771898,1.6929122306982984,0.798570380356148,0.8,1998,2022,Country-level concordance summary for overlapping ECDC/WHO annual rows.
+country,LTU,Lithuania,25,1.0008680555555556,1.0,0.0008680555555555555,0.96,1998,2022,Country-level concordance summary for overlapping ECDC/WHO annual rows.
+country,LUX,Luxembourg,18,1.05,1.0,0.25,0.6666666666666666,2003,2022,Country-level concordance summary for overlapping ECDC/WHO annual rows.
+country,LVA,Latvia,20,1.0036389987148193,1.0,0.005123774314620381,1.0,2003,2022,Country-level concordance summary for overlapping ECDC/WHO annual rows.
+country,MLT,Malta,23,0.965546218487395,1.0,0.2475256769374416,0.6086956521739131,1998,2022,Country-level concordance summary for overlapping ECDC/WHO annual rows.
+country,NLD,Netherlands,23,1.01706248702351,1.0,0.09901338134554569,1.0,1998,2022,Country-level concordance summary for overlapping ECDC/WHO annual rows.
+country,NOR,Norway,22,0.9935241037208581,1.0,0.025387561073648715,1.0,2000,2022,Country-level concordance summary for overlapping ECDC/WHO annual rows.
+country,POL,Poland,15,1.000621915802012,1.0,0.002167638465210947,1.0,2003,2022,Country-level concordance summary for overlapping ECDC/WHO annual rows.
+country,PRT,Portugal,24,1.0026224412837117,1.0,0.012304344347967629,1.0,1998,2022,Country-level concordance summary for overlapping ECDC/WHO annual rows.
+country,ROU,Romania,20,1.0054054697217976,1.0,0.014177399546358924,1.0,2003,2022,Country-level concordance summary for overlapping ECDC/WHO annual rows.
+country,SVK,Slovakia,20,0.9953257617086066,1.0,0.010421364728174976,1.0,2003,2022,Country-level concordance summary for overlapping ECDC/WHO annual rows.
+country,SVN,Slovenia,20,1.0078436952008416,1.0,0.008069939544732972,1.0,2003,2022,Country-level concordance summary for overlapping ECDC/WHO annual rows.
+country,SWE,Sweden,23,1.0054729404938205,1.0,0.006958480557142081,1.0,2000,2022,Country-level concordance summary for overlapping ECDC/WHO annual rows.

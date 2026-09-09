@@ -1,0 +1,2 @@
+scope,iso3,country,country_count,year_count,overlap_years,year_min,year_max,exact_match_fraction,mean_absolute_difference,max_absolute_difference,nonzero_difference_count,mean_ratio_workbook_to_who,median_ratio_workbook_to_who,mean_absolute_relative_difference,within_factor2_fraction,comparison_note
+all_overlaps,ALL,All overlapping WHO annual country-years,212,24,4048,2000,2023,1.0,0.0,0.0,0,1.0,1.0,0.0,1.0,Official WHO annual reported-cases workbook matches the current WHO annual country-case series exactly across all overlapping country-years.

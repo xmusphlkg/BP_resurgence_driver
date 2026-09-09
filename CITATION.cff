@@ -1,0 +1,65 @@
+cff-version: 1.2.0
+message: "If you use this analysis code or derived aggregate outputs, please cite the associated manuscript and repository release."
+title: "Process-linked surveillance can distinguish burden from ascertainment in pertussis resurgence: a matched-notification benchmark"
+type: software
+authors:
+  - family-names: Li
+    given-names: Kangguo
+  - family-names: Zenghuang
+    given-names: Yunzhi
+  - family-names: Chen
+    given-names: Tao
+  - family-names: Song
+    given-names: Wentao
+  - family-names: Chen
+    given-names: Sha
+  - family-names: Sun
+    given-names: Jianhang
+  - family-names: Zeng
+    given-names: Weijie
+  - family-names: Li
+    given-names: Juan
+  - family-names: Zhang
+    given-names: Ruixin
+  - family-names: Wu
+    given-names: Jiadong
+  - family-names: Zhou
+    given-names: Zechen
+  - family-names: Abudurusuli
+    given-names: Guzainuer
+  - family-names: Wei
+    given-names: Hongjie
+  - family-names: Rui
+    given-names: Jia
+  - family-names: Pontarotti
+    given-names: Pierre
+  - family-names: Frutos
+    given-names: Roger
+  - family-names: Deng
+    given-names: Bin
+  - family-names: Luo
+    given-names: Li
+  - family-names: Su
+    given-names: Yanhua
+  - family-names: Zhao
+    given-names: Zeyu
+  - family-names: Luo
+    given-names: Kaiwei
+  - family-names: Chen
+    given-names: Tianmu
+repository-code: "https://github.com/xmusphlkg/BP_resurgence_driver"
+license: MIT
+version: "working-analysis-monitoring_packages_v3_partial_matching"
+date-released: "2026-08-13"
+preferred-citation:
+  type: article
+  title: "Process-linked surveillance can distinguish burden from ascertainment in pertussis resurgence: a matched-notification benchmark"
+  authors:
+    - family-names: Li
+      given-names: Kangguo
+    - family-names: Luo
+      given-names: Kaiwei
+    - family-names: Chen
+      given-names: Tianmu
+  year: 2026
+  notes: "Manuscript in preparation; replace with journal citation and DOI after publication."

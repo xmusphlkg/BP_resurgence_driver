@@ -1,0 +1,13 @@
+cowplot
+dplyr
+forcats
+ggplot2
+ggrepel
+ggsci
+patchwork
+ragg
+readr
+scales
+stringr
+svglite
+tidyr
