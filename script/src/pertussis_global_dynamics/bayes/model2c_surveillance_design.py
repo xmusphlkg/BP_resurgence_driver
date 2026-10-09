@@ -331,8 +331,11 @@ def simulate_observation_features(
     design: MeasurementDesign,
     seed: int,
     observation_replicate: int,
+    severe_count_pseudocount: float = 0.5,
 ) -> dict[str, Any]:
     """Sample all candidate surveillance streams from one latent signal row."""
+    if not np.isfinite(severe_count_pseudocount) or severe_count_pseudocount <= 0.0:
+        raise ValueError("severe_count_pseudocount must be finite and positive.")
     # Separate streams preserve testing draws across notification matching
     # strengths even when count samplers consume different random numbers.
     rng_notifications, rng_age, rng_testing, rng_severe, rng_serology, rng_baseline = (
@@ -419,7 +422,10 @@ def simulate_observation_features(
         )
         row[f"observed_severe_events_{year_value}"] = severe_observed
         row[f"feature_severe_log_ratio_{year_value}"] = float(
-            np.log((severe_observed + 0.5) / (baseline_events_observed + 0.5))
+            np.log(
+                (severe_observed + severe_count_pseudocount)
+                / (baseline_events_observed + severe_count_pseudocount)
+            )
         )
 
     for year_value in SEROLOGY_YEARS:

@@ -46,3 +46,7 @@ outputs/**/*submission*
 outputs/**/*freeze*
 outputs/**/*validation*
 outputs/**/manuscript_consistency*
+
+# Reviewed numerical analysis results (no internal run manifests).
+!outputs/ijid_revision_audits_20261008/
+!outputs/ijid_revision_audits_20261008/*.csv

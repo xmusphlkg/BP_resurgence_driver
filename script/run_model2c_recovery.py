@@ -555,6 +555,14 @@ def fit_experiment(args: argparse.Namespace, experiment_dir: Path, manifest: pd.
     print(f"Recovery budget: {args.run_workers} fits × {args.parallel_chains} chains × 1 thread; "
           f"at most {args.max_fits or len(manifest)} new fits", flush=True)
     updated = manifest.copy()
+    # CSV manifests with no recorded errors are parsed by pandas as a
+    # float64 all-NA column.  The fit loop writes human-readable status/error
+    # strings while marking pending/running/completed work, so normalize this
+    # field before any in-place assignment (including resume on old manifests).
+    if "error" in updated.columns:
+        updated["error"] = updated["error"].fillna("").astype(str)
+    else:
+        updated["error"] = ""
     payloads: list[dict[str, Any]] = []
     for index, row in updated.iterrows():
         draws_path, fit_summary_path, completion_marker_path, hmc_diagnostics_path = _completion_paths(row)

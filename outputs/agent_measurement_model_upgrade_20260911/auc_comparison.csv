@@ -1,0 +1,9 @@
+model,package_id,streams,n_features,n_groups,auc_grouped_cv,auc_grouped_cv_lower_95,auc_grouped_cv_upper_95,auc_leave_one_country_out,country_holdout_median,country_holdout_n_ge_070,classifier,bootstrap_replicates
+idealized_main,notifications+testing,testing,39,720,0.6175023576817559,0.5918923986196846,0.6410001982596022,0.3829550325788752,0.3840798611111111,1,shrinkage_linear_discriminant,300
+calibrated_process,notifications+testing,testing,39,720,0.5912349965706447,0.5722863779578189,0.6119954989711933,0.446860853909465,0.4859895833333333,0,shrinkage_linear_discriminant,300
+idealized_main,notifications+severe,severe,39,720,0.98897719478738,0.9859562489283265,0.9918611539780521,0.9663220164609053,0.9999652777777778,9,shrinkage_linear_discriminant,300
+calibrated_process,notifications+severe,severe,39,720,0.7388998199588477,0.7244558738425926,0.7521489519032922,0.7241379458161865,0.751875,6,shrinkage_linear_discriminant,300
+idealized_main,notifications+testing+severe,testing|severe,42,720,0.9918711419753087,0.9888782364540467,0.9941850512259945,0.9690279921124828,0.9998090277777778,9,shrinkage_linear_discriminant,300
+calibrated_process,notifications+testing+severe,testing|severe,42,720,0.7493734996570645,0.7325979616769548,0.7650060763888888,0.6848450360082304,0.7322222222222222,5,shrinkage_linear_discriminant,300
+idealized_main,notifications+testing+severe+serology,testing|severe|serology,54,720,0.9918567815500686,0.9890905885631002,0.9941401534636488,0.9484409293552812,0.9998958333333333,9,shrinkage_linear_discriminant,300
+calibrated_process,notifications+testing+severe+serology,testing|severe|serology,54,720,0.7923825445816186,0.7763242348251029,0.8046192022462277,0.7042371827846365,0.7934722222222222,6,shrinkage_linear_discriminant,300

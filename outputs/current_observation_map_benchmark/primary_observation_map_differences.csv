@@ -1,0 +1,12 @@
+setting,contrast_type,lhs,rhs,macro_auc_difference,lower_95,upper_95,bootstrap_replicates
+process_anchored,cross_map_minus_target_trained,native/effective/testing,effective/effective/testing,-0.271628086419753,-0.5296910204475308,-0.0766014178240742,1000
+process_anchored,cross_map_minus_target_trained,effective/native/testing,native/native/testing,0.0482561728395062,-0.1528369502314814,0.3225549286265432,1000
+process_anchored,cross_map_minus_target_trained,native/effective/severe,effective/effective/severe,0.0,0.0,0.0,1000
+process_anchored,cross_map_minus_target_trained,effective/native/severe,native/native/severe,0.0,0.0,0.0,1000
+process_anchored,cross_map_minus_target_trained,native/effective/testing_severe,effective/effective/testing_severe,-0.2507600308641976,-0.3601046006944444,-0.1688007812499999,1000
+process_anchored,cross_map_minus_target_trained,effective/native/testing_severe,native/native/testing_severe,-0.0705054012345679,-0.1976116415895062,0.0990852623456789,1000
+process_anchored,same_map_package_difference,native/native/severe,native/native/testing,0.2744483024691358,0.1385002411265432,0.4275999710648148,1000
+process_anchored,same_map_package_difference,native/native/testing_severe,native/native/severe,-0.0421238425925925,-0.1123195408950618,0.0045940875771604,1000
+process_anchored,same_map_package_difference,effective/effective/severe,effective/effective/testing,-0.2510493827160492,-0.2981457368827161,-0.2086044077932098,1000
+process_anchored,same_map_package_difference,effective/effective/testing_severe,effective/effective/severe,0.2439293981481483,0.2087684220679013,0.2828037229938273,1000
+process_anchored,effective_minus_native,effective/effective/testing,native/native/testing,0.5254976851851851,0.421906635802469,0.6541339699074074,1000

@@ -4,6 +4,7 @@ import json
 import math
 import os
 import re
+from dataclasses import replace
 from pathlib import Path
 from typing import Any
 
@@ -113,6 +114,26 @@ def _routine_delay_sensitivity() -> float:
 def _env_mode(name: str, allowed: set[str], default: str) -> str:
     value = os.environ.get(name, default).strip().casefold().replace("-", "_")
     return value if value in allowed else default
+
+
+def _strict_time_cutoff_enabled() -> bool:
+    """Opt-in cutoff for dated auxiliary evidence used by recovery pilots."""
+    return os.environ.get("MODEL2C_STRICT_TIME_CUTOFF", "0").strip().casefold() in {"1", "true", "yes", "on"}
+
+
+def _complete_evidence_before(table: pd.DataFrame, cutoff: int) -> pd.DataFrame:
+    """Drop undated or straddling auxiliary evidence, without inventing dates."""
+    if table.empty:
+        return table.copy()
+    if "period_end" in table:
+        ends = pd.to_datetime(table["period_end"], errors="coerce")
+        keep = ends.notna() & ends.le(pd.Timestamp(year=cutoff, month=12, day=31))
+    elif "year" in table:
+        years = pd.to_numeric(table["year"], errors="coerce")
+        keep = years.notna() & years.le(cutoff)
+    else:
+        return table.iloc[0:0].copy()
+    return table.loc[keep].copy()
 
 
 def _reporting_prior_mode() -> str:
@@ -337,7 +358,35 @@ def _monthly_contact_intensity(context: CountryContext, grid: pd.DataFrame) -> l
     return with_low_circulation_memory(np.asarray(annual, dtype=float), grid["year"])
 
 
-def _monthly_seasonal_multiplier(context: CountryContext, grid: pd.DataFrame) -> list[float]:
+def _observations_through_year(
+    observations: pd.DataFrame, end_year: int, *, end_date_column: str = "period_end"
+) -> pd.DataFrame:
+    """Keep dated observations wholly within the training outcome window.
+
+    This uses observation dates, not publication/access dates. In particular, a
+    multi-year denominator ending after the cutoff must not enter the centering
+    of an earlier testing series, even when its nominal year is earlier.
+    """
+    if observations.empty:
+        return observations.copy()
+    years = pd.to_numeric(observations.get("year"), errors="coerce")
+    keep = years.le(end_year)
+    if end_date_column in observations:
+        end_dates = pd.to_datetime(observations[end_date_column], errors="coerce")
+        cutoff = pd.Timestamp(year=end_year, month=12, day=31)
+        keep &= end_dates.isna() | end_dates.le(cutoff)
+    return observations.loc[keep].copy()
+
+
+def _monthly_seasonal_multiplier(
+    context: CountryContext, grid: pd.DataFrame, *, fit_end_year: int = MODEL2B_FIT_END_YEAR
+) -> list[float]:
+    # The preferred 2015-2019 baseline is unchanged. Its fallback must also use
+    # training observations only when a country has no baseline-month series.
+    context = replace(
+        context,
+        time_resolved=_observations_through_year(context.time_resolved, fit_end_year, end_date_column="date_end"),
+    )
     seasonal = monthly_seasonal_fractions(context).copy()
     if seasonal.empty:
         lookup = {month: 1.0 for month in range(1, 13)}
@@ -374,10 +423,19 @@ def _historical_periodic_multiplier(context: CountryContext, grid: pd.DataFrame)
     return np.clip(np.asarray(values, dtype=float), 0.15, 4.0).astype(float).tolist()
 
 
-def _reporting_prior(context: CountryContext) -> dict[str, Any]:
+def _reporting_prior(
+    context: CountryContext, *, fit_end_year: int = MODEL2B_FIT_END_YEAR
+) -> dict[str, Any]:
     mode = _reporting_prior_mode()
-    prior = monthly_detection_prior_table(context, MODEL2B_START_YEAR, MODEL2B_FIT_END_YEAR, include_testing_denominator=True)
-    post = prior.loc[prior["year"].between(2023, 2025)].copy() if not prior.empty else pd.DataFrame()
+    prior_end_year = min(fit_end_year, MODEL2B_FIT_END_YEAR)
+    # Truncate before the helper centers denominator series and labels support;
+    # filtering its output alone still lets future denominators change priors.
+    context = replace(
+        context,
+        surveillance_outcomes=_observations_through_year(context.surveillance_outcomes, prior_end_year),
+    )
+    prior = monthly_detection_prior_table(context, MODEL2B_START_YEAR, prior_end_year, include_testing_denominator=True)
+    post = prior.loc[prior["year"].between(2023, prior_end_year)].copy() if not prior.empty else pd.DataFrame()
     direct_support = False
     support_level = "not_available"
     source_ids = "not_available"
@@ -450,8 +508,9 @@ def _absolute_reporting_rate_prior(
     inputs: dict[str, pd.DataFrame],
     *,
     direct_testing_support: bool,
+    fit_end_year: int = MODEL2B_FIT_END_YEAR,
 ) -> dict[str, Any]:
-    gbd_incidence_per_100k = _gbd_incidence_per_100k(context, inputs)
+    gbd_incidence_per_100k = _gbd_incidence_per_100k(context, inputs, fit_end_year=fit_end_year)
     if direct_testing_support:
         mean = 0.03
         sigma = 0.75
@@ -491,11 +550,14 @@ def _absolute_reporting_rate_prior(
     }
 
 
-def _gbd_incidence_per_100k(context: CountryContext, inputs: dict[str, pd.DataFrame]) -> float:
+def _gbd_incidence_per_100k(
+    context: CountryContext, inputs: dict[str, pd.DataFrame], *, fit_end_year: int = MODEL2B_FIT_END_YEAR
+) -> float:
     annual = context.annual.copy()
     annual["year"] = pd.to_numeric(annual.get("year"), errors="coerce")
     annual["population"] = pd.to_numeric(annual.get("population"), errors="coerce")
-    population = float(annual.loc[annual["year"].between(2010, 2021), "population"].mean())
+    last_anchor_year = min(2021, int(fit_end_year)) if _strict_time_cutoff_enabled() else 2021
+    population = float(annual.loc[annual["year"].between(2010, last_anchor_year), "population"].mean())
     gbd = inputs.get("gbd_burden", pd.DataFrame()).copy()
     if not gbd.empty and "iso3" in gbd:
         gbd = gbd.loc[gbd["iso3"].astype(str).eq(context.iso3)].copy()
@@ -505,7 +567,7 @@ def _gbd_incidence_per_100k(context: CountryContext, inputs: dict[str, pd.DataFr
         measure = gbd.get("measure_name", pd.Series(dtype=str)).astype(str).str.contains("Incidence", case=False, na=False)
         metric = gbd.get("metric_name", pd.Series(dtype=str)).astype(str).eq("Number")
         age = gbd.get("age_name", pd.Series(dtype=str)).astype(str).eq("All ages")
-        selected = gbd.loc[measure & metric & age & gbd["year"].between(2010, 2021), "val"].dropna()
+        selected = gbd.loc[measure & metric & age & gbd["year"].between(2010, last_anchor_year), "val"].dropna()
         gbd_incidence_number = float(selected.mean()) if not selected.empty else np.nan
     else:
         gbd_incidence_number = np.nan
@@ -515,13 +577,15 @@ def _gbd_incidence_per_100k(context: CountryContext, inputs: dict[str, pd.DataFr
     return float("nan")
 
 
-def _silent_exposure_floor_prior(context: CountryContext, inputs: dict[str, pd.DataFrame]) -> dict[str, Any]:
-    gbd_incidence_per_100k = _gbd_incidence_per_100k(context, inputs)
+def _silent_exposure_floor_prior(
+    context: CountryContext, inputs: dict[str, pd.DataFrame], *, fit_end_year: int = MODEL2B_FIT_END_YEAR
+) -> dict[str, Any]:
+    gbd_incidence_per_100k = _gbd_incidence_per_100k(context, inputs, fit_end_year=fit_end_year)
     if np.isfinite(gbd_incidence_per_100k) and gbd_incidence_per_100k > 0:
         gbd_floor = gbd_incidence_per_100k / 100000.0 / 12.0 * GBD_TO_SILENT_EXPOSURE_MULTIPLIER
     else:
         gbd_floor = np.nan
-    serology_recent_percent = _serology_recent_infection_percent(context, inputs)
+    serology_recent_percent = _serology_recent_infection_percent(context, inputs, fit_end_year=fit_end_year)
     serology_floor = (
         serology_recent_percent / 100.0 / 12.0
         if np.isfinite(serology_recent_percent) and serology_recent_percent > 0
@@ -569,13 +633,19 @@ def _routine_weight_vector(weights: dict[str, float], *, upper: float = 1.0) -> 
     return [float(np.clip(weights.get(age, 0.0), 0.0, upper)) for age in AGE_ORDER]
 
 
-def _serology_recent_infection_percent(context: CountryContext, inputs: dict[str, pd.DataFrame]) -> float:
+def _serology_recent_infection_percent(
+    context: CountryContext, inputs: dict[str, pd.DataFrame], *, fit_end_year: int = MODEL2B_FIT_END_YEAR
+) -> float:
     serology = inputs.get("serology_evidence", pd.DataFrame()).copy()
     if serology.empty or "iso3" not in serology:
         return float("nan")
     serology = serology.loc[serology["iso3"].astype(str).eq(context.iso3)].copy()
     if serology.empty:
         return float("nan")
+    if _strict_time_cutoff_enabled():
+        serology = _complete_evidence_before(serology, fit_end_year)
+        if serology.empty:
+            return float("nan")
     metric = serology.get("serology_metric", pd.Series(dtype=str)).astype(str).str.casefold()
     unit = serology.get("serology_unit", pd.Series(dtype=str)).astype(str).str.casefold()
     serology["serology_value"] = pd.to_numeric(serology.get("serology_value"), errors="coerce")
@@ -916,6 +986,13 @@ def build_model2b_stan_data(
 ) -> tuple[dict[str, Any], dict[str, Any]]:
     init = model2b_initial_values(initial_params)
     fit_end_year = _fit_end_year(start_year, end_year)
+    if _strict_time_cutoff_enabled():
+        # This is an observation-period cutoff, not proof of publication-vintage
+        # availability. Forecast demographic/coverage paths remain conditional.
+        inputs = dict(inputs)
+        for name in ("gbd_burden", "serology_evidence", "strain_amr_timeline"):
+            inputs[name] = _complete_evidence_before(inputs.get(name, pd.DataFrame()), fit_end_year)
+        context = replace(context, pathogen_timeline=_complete_evidence_before(context.pathogen_timeline, fit_end_year))
     month_weight_mode = _month_observation_weight_mode()
     age_observation_mode = _age_observation_mode()
     contact_sensitivity_upper = _contact_sensitivity_upper()
@@ -934,7 +1011,7 @@ def build_model2b_stan_data(
     ]
     grid["dtp1"] = np.maximum(grid["dtp1"].astype(float), grid["dtp3"].astype(float))
     grid["periodic_multiplier"] = _historical_periodic_multiplier(context, grid)
-    grid["seasonal_multiplier"] = _monthly_seasonal_multiplier(context, grid)
+    grid["seasonal_multiplier"] = _monthly_seasonal_multiplier(context, grid, fit_end_year=fit_end_year)
     grid["contact_intensity"] = _monthly_contact_intensity(context, grid)
     pathogen_prior = monthly_pathogen_prior_table(context, start_year=start_year, end_year=end_year)
     if pathogen_prior.empty:
@@ -985,13 +1062,14 @@ def build_model2b_stan_data(
         age_obs_weights = [1.0 for _ in range(len(age_obs))]
     else:
         age_obs_weights = age_obs["age_allocation_weight"].astype(float).clip(lower=0.05, upper=1.0).tolist()
-    reporting_prior = _reporting_prior(context)
+    reporting_prior = _reporting_prior(context, fit_end_year=fit_end_year)
     absolute_reporting_prior = _absolute_reporting_rate_prior(
         context,
         inputs,
         direct_testing_support=bool(reporting_prior["direct_testing_support"]),
+        fit_end_year=fit_end_year,
     )
-    silent_exposure_floor = _silent_exposure_floor_prior(context, inputs)
+    silent_exposure_floor = _silent_exposure_floor_prior(context, inputs, fit_end_year=fit_end_year)
     init_natural_share_prior_mean = _initial_natural_share_prior_mean(context, silent_exposure_floor)
     natural_exposure_contact_sensitivity = _natural_exposure_contact_sensitivity()
     routine_delay_sensitivity = _routine_delay_sensitivity()
@@ -1142,6 +1220,8 @@ def build_model2b_stan_data(
         "reporting_prior_support_level": reporting_prior["reporting_prior_support_level"],
         "reporting_prior_source_ids": reporting_prior["reporting_prior_source_ids"],
         "reporting_prior_method": reporting_prior["reporting_prior_method"],
+        "reporting_prior_observation_end_year": min(fit_end_year, MODEL2B_FIT_END_YEAR),
+        "reporting_prior_cutoff_basis": "observation_period_not_source_publication_date",
         "absolute_reporting_rate_prior_mean": absolute_reporting_prior["absolute_reporting_rate_prior_mean"],
         "absolute_reporting_rate_prior_lower": absolute_reporting_prior["absolute_reporting_rate_prior_lower"],
         "absolute_reporting_rate_prior_upper": absolute_reporting_prior["absolute_reporting_rate_prior_upper"],

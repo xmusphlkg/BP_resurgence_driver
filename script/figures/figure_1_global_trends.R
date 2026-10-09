@@ -113,6 +113,6 @@ p_uncertainty <- ggplot(periodic, aes(ratio, country_y)) +
   country_axis() + labs(tag = "c", x = "2023-25 incidence / periodic comparator\n(95% conditional bootstrap interval)", y = NULL) +
   theme_manuscript(plot_margin = margin(4, 4, 3, 4))
 
-figure <- p_monthly + p_baselines + p_uncertainty +
+figure <- patchwork::free(p_monthly) + p_baselines + p_uncertainty +
   plot_layout(design = "AA\nBC", widths = c(1.04, 1), heights = c(1.35, 1))
 save_main_figure(figure, "figure_1_nine_country_context", nature_full_width_mm, 170)

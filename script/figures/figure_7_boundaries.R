@@ -16,10 +16,11 @@ setwd(repo_root)
 source(file.path("script", "figures", "_common.R"))
 
 # Figure contract
-# Core conclusion: increasing contrast can improve or reverse pooled transport;
-# selected-scenario classification, loading rank and event measurement are
-# distinct dimensions. Panel a pairs pooled scores with country medians so that
-# a pooled monotonic trend cannot be mistaken for a universal country effect.
+# Core conclusion: measurement precision, latent contrast and event density set
+# practical discrimination boundaries. Loading-rank and cross-loading checks
+# remain supplementary diagnostics rather than main-text results. Panel a
+# pairs pooled scores with country medians so that a pooled trend is not read as
+# a universal country effect.
 
 atten <- read_csv_checked(
   fd_path("figure_4_attenuation.csv"),
@@ -29,24 +30,6 @@ atten <- read_csv_checked(
   )
 ) |>
   filter(package_id %in% c("notifications+testing", "notifications+severe", "notifications+testing+severe"))
-cross <- read_csv_checked(
-  fd_path("figure_4_cross_loading.csv"),
-  required = c(
-    "cross_loading_regime", "cross_loading_coefficient", "package_id", "grouped_cv_auc",
-    "grouped_cv_auc_lower_95", "grouped_cv_auc_upper_95"
-  )
-) |>
-  filter(
-    cross_loading_regime == "both_contaminated",
-    package_id %in% c("notifications+testing", "notifications+severe", "notifications+testing+severe")
-  )
-surface <- read_csv_checked(
-  fd_path("figure_4_cross_loading_surface.csv"),
-  required = c(
-    "testing_cross_loading_fraction", "severe_cross_loading_fraction", "package_id",
-    "grouped_cv_auc", "whole_country_holdout_auc"
-  )
-)
 severe <- read_csv_checked(
   fd_path("figure_7_severe_resource_frontier.csv"),
   required = c(
@@ -62,23 +45,10 @@ precision <- read_csv_checked(
   )
 ) |>
   filter(frontier_type %in% c("testing_log_sd", "severe_annual_log_sd"))
-loading_metrics <- read_csv_checked(
-  fd_path("information_loading_matrix_metrics.csv"),
-  required = c(
-    "testing_cross_loading_fraction", "severe_cross_loading_fraction",
-    "fisher_minimum_eigenvalue_unit_noise", "condition_number", "rank"
-  )
-)
-
 stopifnot(
-  nrow(surface) == 25L,
-  nrow(loading_metrics) == 25L,
   nrow(severe) == 21L,
   all(severe$n_bootstrap == 2000L),
-  n_distinct(surface$testing_cross_loading_fraction) == 5L,
-  n_distinct(surface$severe_cross_loading_fraction) == 5L,
-  n_distinct(loading_metrics$testing_cross_loading_fraction) == 5L,
-  n_distinct(loading_metrics$severe_cross_loading_fraction) == 5L
+  all(is.finite(severe$auc))
 )
 
 package_labels <- c(
@@ -88,7 +58,6 @@ package_labels <- c(
 )
 package_colours <- c("Testing" = clr("blue"), "Severe" = clr("orange"), "Testing–severe" = clr("black"))
 atten <- atten |> mutate(package = unname(package_labels[package_id]))
-cross <- cross |> mutate(package = unname(package_labels[package_id]))
 
 green_scale <- c("#F1F4F2", "#CDE4DA", "#79BDA4", "#176A50")
 blue_scale <- c("#F1F4F7", "#D0DEEB", "#76A3CC", "#235F98")
@@ -145,7 +114,7 @@ p_contrast <- ggplot(contrast_long, aes(target_standardised_contrast, auc,
   scale_y_continuous(breaks = seq(0.4, 1, 0.2)) +
   coord_cartesian(xlim = c(0.46, 6.1), ylim = c(0.34, 1.015)) +
   labs(tag = "a", x = "Median latent contrast / reference SD (0.20)",
-       y = "Country-holdout AUC", colour = NULL, linetype = NULL, shape = NULL) +
+       y = "Country-transfer AUC", colour = NULL, linetype = NULL, shape = NULL) +
   guides(colour = guide_legend(order = 1, nrow = 1),
          linetype = guide_legend(order = 2, nrow = 1), shape = guide_legend(order = 2, nrow = 1)) +
   theme_nature(grid = "y") +
@@ -174,60 +143,6 @@ p_a <- ggplot(atten, aes(retained_between_class_contrast, grouped_cv_auc, colour
   guides(colour = guide_legend(nrow = 1, byrow = TRUE)) +
   theme(legend.position = "bottom")
 
-p_b <- ggplot(cross, aes(cross_loading_coefficient, grouped_cv_auc, colour = package, fill = package)) +
-  geom_hline(yintercept = 0.5, linetype = "dotted", colour = clr("grey")) +
-  geom_hline(yintercept = 0.8, linetype = "22", linewidth = 0.3, colour = clr("dark_grey")) +
-  geom_ribbon(aes(ymin = grouped_cv_auc_lower_95, ymax = grouped_cv_auc_upper_95), alpha = 0.1, colour = NA) +
-  geom_line(linewidth = 0.68) +
-  geom_point(size = 1.45) +
-  scale_colour_manual(values = package_colours) +
-  scale_fill_manual(values = package_colours) +
-  scale_x_continuous(labels = label_percent(), breaks = c(0, 0.25, 0.5, 0.75, 1)) +
-  scale_y_continuous(breaks = c(0.5, 0.6, 0.7, 0.8, 0.9, 1)) +
-  coord_cartesian(ylim = c(min(0.46, cross$grouped_cv_auc_lower_95) - 0.005, 1.005)) +
-  labs(
-    tag = "c", x = "Shared source-stream loading", y = "Grouped-CV AUC",
-    colour = NULL, fill = NULL
-  ) +
-  theme_nature(grid = "y") +
-  guides(colour = guide_legend(nrow = 1, byrow = TRUE)) +
-  theme(legend.position = "bottom")
-
-surface_plot <- surface |>
-  left_join(
-    loading_metrics |>
-      select(testing_cross_loading_fraction, severe_cross_loading_fraction,
-             fisher_minimum_eigenvalue_unit_noise, rank),
-    by = c("testing_cross_loading_fraction", "severe_cross_loading_fraction")
-  ) |>
-  mutate(
-    loading_rank = factor(
-      if_else(rank < 2, "Rank 1 (shared loading)", "Rank 2"),
-      levels = c("Rank 2", "Rank 1 (shared loading)")
-    )
-  )
-stopifnot(nrow(surface_plot) == 25L, all(is.finite(surface_plot$fisher_minimum_eigenvalue_unit_noise)))
-stopifnot(all(surface_plot$grouped_cv_auc >= 0.95), all(surface_plot$grouped_cv_auc <= 1))
-p_c <- ggplot(surface_plot, aes(fisher_minimum_eigenvalue_unit_noise, grouped_cv_auc, colour = loading_rank, shape = loading_rank)) +
-  geom_point(size = 1.8, alpha = 0.85) +
-  geom_text(
-    data = surface_plot |> filter(rank < 2),
-    aes(label = sprintf("AUC %.3f", grouped_cv_auc)),
-    nudge_y = -0.006, hjust = 0, size = 1.45, family = figure_font_family,
-    show.legend = FALSE
-  ) +
-  scale_colour_manual(values = c("Rank 2" = clr("blue"), "Rank 1 (shared loading)" = clr("orange"))) +
-  scale_shape_manual(values = c("Rank 2" = 16, "Rank 1 (shared loading)" = 17)) +
-  scale_x_continuous(breaks = c(0, 0.25, 0.5, 0.75, 1), limits = c(-0.04, 1.04)) +
-  scale_y_continuous(breaks = seq(0.95, 1, 0.01), limits = c(0.95, 1.001),
-                     labels = label_number(accuracy = 0.01)) +
-  labs(
-    tag = "d", x = "Minimum eigenvalue of AᵀA (unit noise)", y = "Grouped-CV AUC",
-    colour = "Loading rank", shape = "Loading rank"
-  ) +
-  theme_nature(grid = "both") +
-  theme(legend.position = "bottom", legend.direction = "horizontal")
-
 event_levels <- sort(unique(severe$severe_baseline_events_per_country_year))
 drift_levels <- sort(unique(severe$severe_annual_log_rate_drift_sd), decreasing = TRUE)
 severe_plot <- severe |>
@@ -239,7 +154,7 @@ severe_plot <- severe |>
     text_colour = heatmap_text_colour(auc, green_scale, c(0.5, 1))
   )
 stopifnot(all(severe_plot$meets == (severe_plot$auc >= 0.8)))
-p_d <- ggplot(severe_plot, aes(events, drift, fill = auc)) +
+p_c <- ggplot(severe_plot, aes(events, drift, fill = auc)) +
   geom_tile(colour = "white", linewidth = 0.68) +
   geom_tile(data = severe_plot |> filter(!meets), fill = NA, colour = "#924B32", linewidth = 0.68) +
   geom_text(
@@ -252,7 +167,7 @@ p_d <- ggplot(severe_plot, aes(events, drift, fill = auc)) +
   ) +
   scale_colour_identity() +
   labs(
-    tag = "e", x = "Baseline expected infant events\nper sentinel catchment-year",
+    tag = "c", x = "Baseline expected infant events\nper sentinel catchment-year",
     y = "Annual log-rate-drift SD", fill = "AUC"
   ) +
   guides(fill = guide_colorbar(barheight = unit(34, "mm"), barwidth = unit(3.2, "mm"))) +
@@ -271,7 +186,7 @@ precision_plot <- precision |>
     )
   )
 precision_cols <- c("Testing-index error" = clr("blue"), "Severe-rate drift" = clr("orange"))
-p_e <- ggplot(precision_plot, aes(parameter_value, auc, colour = stream, fill = stream)) +
+p_d <- ggplot(precision_plot, aes(parameter_value, auc, colour = stream, fill = stream)) +
   geom_hline(yintercept = 0.8, linetype = "22", linewidth = 0.35, colour = clr("dark_grey")) +
   geom_ribbon(aes(ymin = auc_lower_95, ymax = auc_upper_95), alpha = 0.11, colour = NA) +
   geom_line(linewidth = 0.7) +
@@ -282,19 +197,30 @@ p_e <- ggplot(precision_plot, aes(parameter_value, auc, colour = stream, fill = 
   scale_y_continuous(breaks = c(0.5, 0.6, 0.7, 0.8, 0.9, 1)) +
   coord_cartesian(ylim = c(min(0.46, precision_plot$auc_lower_95) - 0.005, 1.005)) +
   labs(
-    tag = "f", x = "Log-scale measurement-noise SD", y = "Grouped-CV AUC",
+    tag = "d", x = "Log-scale measurement-noise SD", y = "Grouped-CV AUC",
     colour = NULL, fill = NULL
   ) +
   theme_nature(grid = "both") +
   guides(colour = guide_legend(nrow = 1, byrow = TRUE)) +
   theme(legend.position = "bottom")
 
-figure <- (p_contrast | p_a) / (p_b | p_c) / (p_d | p_e) +
-  plot_layout(heights = c(1.02, 0.86, 0.88), widths = c(0.94, 1.06))
+mapping <- read_csv_checked('manuscript/tables/primary_severe_mapping_sensitivity.csv', required=c('severe_contrast_factor','drift_multiplier','country_macro_auc','lower_95','upper_95')) |>
+ mutate(drift=factor(if_else(drift_multiplier==1,'Native drift (SD 0.736)','Doubled drift (SD 1.471)')))
+p_contrast <- ggplot(mapping,aes(severe_contrast_factor,country_macro_auc,colour=drift,fill=drift,linetype=drift))+
+ geom_hline(yintercept=.5,linetype='dotted',colour=clr('grey'))+
+ geom_ribbon(aes(ymin=lower_95,ymax=upper_95),alpha=.10,colour=NA)+geom_line(linewidth=.65)+geom_point(size=1.6)+
+ scale_colour_manual(values=c(clr('blue'),clr('orange')))+scale_fill_manual(values=c(clr('blue'),clr('orange')))+
+ scale_x_continuous(breaks=c(0,.25,.5,.75,1),labels=label_percent())+
+ scale_y_continuous(limits=c(.45,.85),breaks=seq(.5,.8,.1))+
+ labs(tag='a',x='Retained severe-event log contrast',y='Primary country-macro AUC',colour=NULL,fill=NULL,linetype=NULL)+
+ theme_nature(grid='y')+theme(legend.position='bottom',legend.text=element_text(size=5.5))+guides(colour=guide_legend(ncol=1))
+
+figure <- (p_contrast | p_a) / (p_c | p_d) +
+  plot_layout(heights = c(1.02, 0.95), widths = c(0.94, 1.06))
 
 stem <- "figure_3_measurement_boundaries"
 width <- 183 / 25.4
-height <- 165 / 25.4
+height <- 125 / 25.4
 
 grDevices::cairo_pdf(fig_path(paste0(stem, ".pdf")), width = width, height = height, family = "sans")
 print(figure)
@@ -302,4 +228,4 @@ dev.off()
 ragg::agg_png(fig_path(paste0(stem, ".png")), width = width, height = height, units = "in", res = 600, background = "white")
 print(figure)
 dev.off()
-message("Wrote main Figure 3 with loading, attenuation, cross-loading, precision and implementation frontiers.")
+message("Wrote main Figure 3 with contrast, attenuation, event-density and measurement-noise boundaries.")

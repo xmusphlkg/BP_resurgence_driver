@@ -1,6 +1,6 @@
 cff-version: 1.2.0
 message: "If you use this analysis code or derived aggregate outputs, please cite the associated manuscript and repository release."
-title: "Process-linked surveillance can distinguish burden from ascertainment in pertussis resurgence: a matched-notification benchmark"
+title: "When infant severe outcomes inform pertussis surveillance: a nine-country matched-notification simulation study"
 type: software
 authors:
   - family-names: Li
@@ -49,11 +49,11 @@ authors:
     given-names: Tianmu
 repository-code: "https://github.com/xmusphlkg/BP_resurgence_driver"
 license: MIT
-version: "working-analysis-monitoring_packages_v3_partial_matching"
-date-released: "2026-08-13"
+version: "working-analysis-ijid-revision-20261008"
+date-released: "2026-10-08"
 preferred-citation:
   type: article
-  title: "Process-linked surveillance can distinguish burden from ascertainment in pertussis resurgence: a matched-notification benchmark"
+  title: "When infant severe outcomes inform pertussis surveillance: a nine-country matched-notification simulation study"
   authors:
     - family-names: Li
       given-names: Kangguo

@@ -1,0 +1,9 @@
+stream,parameter,estimate,lower,upper,basis
+testing,sigma_log,0.5176517075237452,0.1,0.9,median country process-dispersion anchor; repeated denominator rows after linear trend
+severe,annual_log_drift_sd,0.7355125695496566,0.41864476010275986,0.9986958585537496,median residual log-SD across infant hospitalisation/death series
+severe,NB_phi,0.9546462475065174,0.7854034267514182,3.1711711711711708,median method-of-moments dispersion; sparse-series diagnostic
+serology,n_per_stratum,3243.0,657.0,7903.0,country-specific median reported sample size; global median for missing countries
+serology,recent_window_years,1.5,1.0,2.0,explicit sensitivity parameter; not identified by cross-sectional rows
+serology,assay_sensitivity,0.8,0.7,0.9,nuisance prior range; requires assay validation data
+serology,assay_specificity,0.98,0.95,0.995,nuisance prior range; requires assay validation data
+serology,beta_binomial_precision,200.0,50.0,1000.0,extra-binomial heterogeneity sensitivity parameter; not identified locally

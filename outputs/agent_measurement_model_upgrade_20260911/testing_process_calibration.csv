@@ -1,0 +1,13 @@
+iso3,n_years,sigma_testing_log,method
+AUS,2,0.5176517075237452,pooled fallback (<3 repeated rows)
+BRA,1,0.5176517075237452,pooled fallback (<3 repeated rows)
+CAN,3,0.8521150265107834,linear-trend residual SD
+CHE,1,0.5176517075237452,pooled fallback (<3 repeated rows)
+CHN,1,0.5176517075237452,pooled fallback (<3 repeated rows)
+FRA,8,0.9,linear-trend residual SD
+GBR,6,0.5176517075237452,linear-trend residual SD
+JPN,1,0.5176517075237452,pooled fallback (<3 repeated rows)
+NLD,1,0.5176517075237452,pooled fallback (<3 repeated rows)
+SWE,4,0.1,linear-trend residual SD
+THA,2,0.5176517075237452,pooled fallback (<3 repeated rows)
+USA,5,0.2819030822787425,linear-trend residual SD

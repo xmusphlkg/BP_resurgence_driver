@@ -1,0 +1,5 @@
+setting,train_mapping,test_mapping,package,classifier,observation_replicates,n_features,country_macro_auc,macro_auc_lower_95,macro_auc_upper_95,country_median,country_min,country_max,country_n_ge_070,pooled_holdout_auc
+process_anchored,native,native,testing,shrinkage_linear_discriminant,3,39,0.4564525462962962,0.3341922743055556,0.5558146701388889,0.4859895833333333,0.0842013888888889,0.6259201388888889,0,0.446860853909465
+process_anchored,native,effective,testing,shrinkage_linear_discriminant,3,39,0.7103221450617283,0.4608861400462963,0.9033671392746913,0.9237326388888888,0.0284201388888888,0.995,6,0.6870128172153636
+process_anchored,effective,native,testing,shrinkage_linear_discriminant,3,39,0.5047087191358025,0.3656547067901234,0.6787219328703702,0.4053125,0.1996006944444444,0.9216319444444444,3,0.5145629715363512
+process_anchored,effective,effective,testing,shrinkage_linear_discriminant,3,39,0.9819502314814812,0.965858555169753,0.9953718171296296,0.9955381944444444,0.9361631944444444,1.0,9,0.9386801268861454
