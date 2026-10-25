@@ -1,0 +1,25 @@
+who_region,region_label,income_group,n_primary,iso3_list
+AFRO,Africa,Low income,0,
+AFRO,Africa,Lower middle income,0,
+AFRO,Africa,Upper middle income,0,
+AFRO,Africa,High income,0,
+AMRO,Americas,Low income,0,
+AMRO,Americas,Lower middle income,0,
+AMRO,Americas,Upper middle income,1,BRA
+AMRO,Americas,High income,1,USA
+EMRO,Eastern Mediterranean,Low income,0,
+EMRO,Eastern Mediterranean,Lower middle income,0,
+EMRO,Eastern Mediterranean,Upper middle income,0,
+EMRO,Eastern Mediterranean,High income,0,
+EURO,Europe,Low income,0,
+EURO,Europe,Lower middle income,0,
+EURO,Europe,Upper middle income,0,
+EURO,Europe,High income,2,GBR;SWE
+SEARO,South-East Asia,Low income,0,
+SEARO,South-East Asia,Lower middle income,0,
+SEARO,South-East Asia,Upper middle income,1,THA
+SEARO,South-East Asia,High income,0,
+WPRO,Western Pacific,Low income,0,
+WPRO,Western Pacific,Lower middle income,0,
+WPRO,Western Pacific,Upper middle income,1,CHN
+WPRO,Western Pacific,High income,3,AUS;JPN;NZL

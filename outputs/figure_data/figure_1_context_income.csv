@@ -1,0 +1,6 @@
+world_bank_income_group,n_settings,n_time_resolved,n_age_specific,n_joint_high_resolution,n_selected_calibration_backgrounds,joint_high_resolution_percent,income_classification_date,interpretation_boundary,n_sensitivity_only,n_not_joint_eligible,income_label
+Low income,25,0,0,0,0,0.0,2026-08-05,readiness and representation only; not income-stratified classifier performance,0,25,Low income
+Lower middle income,47,0,0,0,0,0.0,2026-08-05,readiness and representation only; not income-stratified classifier performance,0,47,Lower middle income
+Upper middle income,59,4,3,3,3,5.084745762711864,2026-08-05,readiness and representation only; not income-stratified classifier performance,0,56,Upper middle income
+High income,77,7,34,7,6,9.090909090909092,2026-08-05,readiness and representation only; not income-stratified classifier performance,1,70,High income
+Unclassified,9,0,0,0,0,0.0,2026-08-05,readiness and representation only; not income-stratified classifier performance,0,9,Unclassified

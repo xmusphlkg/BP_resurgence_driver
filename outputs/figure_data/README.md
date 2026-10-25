@@ -9,6 +9,12 @@ These frozen CSV exports are the machine-readable inputs required by
   `observation_available`.
 - `figure_1_context_baselines.csv` contains the 27 comparator rows used for the
   three Figure 1 baseline estimates per country.
+- `figure_1_context_regional.csv`, `figure_1_context_selection.csv`,
+  `figure_1_context_income.csv`, `figure_1_context_coverage.csv`,
+  `figure_1_context_temporal_coverage.csv` and
+  `figure_1_context_vaccination.csv` preserve the accompanying regional,
+  selection, income, coverage, temporal-check and vaccination summaries from
+  the same frozen build.
 - `figure_1_context.metadata.json` records the builder version and SHA-256
   checksums of the generated exports.
 
