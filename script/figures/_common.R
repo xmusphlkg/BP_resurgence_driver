@@ -18,7 +18,11 @@ if (length(missing_packages) > 0) {
 root <- normalizePath(getwd(), mustWork = TRUE)
 fig_dir <- file.path(root, "manuscript", "figures")
 supplement_fig_dir <- file.path(root, "manuscript", "appendix", "figures")
-figure_data_dir <- file.path(root, "manuscript", "figure_data")
+# Public releases keep the frozen figure inputs under outputs/figure_data.
+# A manuscript checkout still takes precedence for the full private build.
+manuscript_figure_data_dir <- file.path(root, "manuscript", "figure_data")
+public_figure_data_dir <- file.path(root, "outputs", "figure_data")
+figure_data_dir <- if (dir.exists(manuscript_figure_data_dir)) manuscript_figure_data_dir else public_figure_data_dir
 outputs_dir <- file.path(root, "outputs")
 dir.create(fig_dir, recursive = TRUE, showWarnings = FALSE)
 dir.create(supplement_fig_dir, recursive = TRUE, showWarnings = FALSE)

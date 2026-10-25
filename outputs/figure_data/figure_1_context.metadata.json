@@ -1,0 +1,108 @@
+{
+  "schema_version": 5,
+  "builder": "script/build_figure1_context_data.py",
+  "builder_sha256": "268804473fdbb9f7089dd35f4935c4c978bb4b1830cad8b7cf2a8691534018b4",
+  "inputs": [
+    {
+      "role": "annual_regional_rates",
+      "path": "manuscript/figure_data/figure_1_global_trends.csv",
+      "sha256": "fc8c4eda2b92184fd7376f1755dded45383a5481b2c267c1af69dc5560abb864"
+    },
+    {
+      "role": "country_baseline_robustness",
+      "path": "outputs/global_baseline_robustness/country_baseline_robustness.csv",
+      "sha256": "361bf68d74a99073e3bfa44f04c15c66892aa82f966f2d2e56c8c0a41ec8f914"
+    },
+    {
+      "role": "selection_audit",
+      "path": "outputs/model2c_country_selection_audit.csv",
+      "sha256": "b339e436adcdd2a0e5c5ddc3ea84ff31d95164ad9c75c143d3735a43f7a148e8"
+    },
+    {
+      "role": "income_summary",
+      "path": "outputs/model2c_surveillance_design/monitoring_packages_v4_source_preserved_20260908/income_group_readiness_summary.csv",
+      "sha256": "3046d8c82fb9d487b43e9a3bcae804221cf01a7ebcebf9ecc59883f6c73d0068"
+    },
+    {
+      "role": "income_setting_audit",
+      "path": "outputs/model2c_surveillance_design/monitoring_packages_v4_source_preserved_20260908/income_group_setting_audit.csv",
+      "sha256": "bd0c9a8970b66650e6ea88affc46da2ea52f093eb79f6548549b986a472e0803"
+    },
+    {
+      "role": "monthly_calibration",
+      "path": "manuscript/figure_data/figure_3_model2c_monthly_posterior_predictive.csv",
+      "sha256": "1fd48afbbd50e005630d760b6170fd1d69864763a80340fb15023d6080c9788c"
+    },
+    {
+      "role": "temporal_monthly",
+      "path": "outputs/model2c_temporal_validation/monthly_temporal_validation.csv",
+      "sha256": "6c6b2c2f0b38db3a928065dbf04eae5f7507f5a3d036b0812204450413730464"
+    },
+    {
+      "role": "temporal_summary",
+      "path": "outputs/model2c_temporal_validation/temporal_validation_summary.csv",
+      "sha256": "e76b581e30636aa140b3d9f346728e78e45d4ccfc960c01675cbe8efeaa2bc53"
+    },
+    {
+      "role": "vaccination_coverage",
+      "path": "data/clean/vaccine_coverage.csv",
+      "sha256": "49160206328a0b41c10ba222368704410cf2966f6e859c04bed0a9c7c90c9c27"
+    }
+  ],
+  "definitions": {
+    "regional": "Arithmetic mean of frozen WHO-region annual reported incidence per 100000 in 2023-2025 versus 2015-2019; ratio=(post_mean+0.01)/(baseline_mean+0.01), matching the previous Figure 1b. Not a ratio of pooled counts and populations.",
+    "baselines": "Nine frozen primary settings only; requested_data_cutoff=2025 and provisional_year_policy=include. Retain source ratios exactly: the same available-year 2023-2025 mean reported incidence divided by each of the 2010-2019 mean, 2015-2019 mean, and periodic expected incidence. No offset, floor, refit or bootstrap rerun.",
+    "range": "The span of the three baseline point estimates in panel b is comparator sensitivity, not a confidence interval. Panel c uses the periodic bootstrap bounds retained in audit-prefixed columns; infinity and unbounded flags are not clipped in the source table. An arrow marks an unbounded upper interval in the plot.",
+    "periodic_uncertainty": "Main panel c promotes the nine-country interval comparison from Supplementary Figure 27f. Preserve 95% conditional intervals from 2000 archived HC2 leverage-adjusted Rademacher wild-residual bootstrap replicates of the periodic baseline, holding the observed 2023-2025 numerator fixed. These intervals describe baseline estimation conditional on the fitted periodic model; they do not include uncertainty in reporting completeness or alternative model structures. No new bootstrap or model fit is performed.",
+    "periodic": "Use the archived periodic baseline and preserve its fit-window audit field. The source fits 2010-2019 or a 2000-2019 fallback when fewer than six years are available; do not infer an identical historical window without checking this field.",
+    "years": "All nine countries have three available post years in this frozen configuration. Presence of a 2025 observation is not proof of a complete/final annual report. No 2026 incidence is used, including where the selection audit has a later latest-case-year field.",
+    "selection": "Nested sets: 217 screened settings, 10 with both required notification resolutions, 9 frozen primary backgrounds; Singapore is the remaining eligible setting and a separate sensitivity case. Counts of these stages must not be summed.",
+    "income": "Preserve the frozen income summary and verify its counts and classification date against all 217 setting-level records. This is calibration representation, not global auxiliary-stream absence or income-stratified classifier performance.",
+    "coverage": "Six WHO regions crossed with four income groups; counts and ISO3 lists refer only to the nine primary models. Zero means no model background in that cell, not national absence of surveillance data. Singapore remains in the original eligibility audit but is outside the primary benchmark.",
+    "monthly": "The 2015-2025 portion of the existing monthly calibration export underlying Supplementary Figure 17. Retain the complete country-month grid, preserve missing observations as gaps, and omit partial 2026 checks. Points are observed notifications; the curve is the median expected report; the displayed 95% band uses negative-binomial predictive-replicate percentiles. Country-specific linear count scales are not incidence rates or population-normalised comparisons. These are in-sample fits, distinct from the separate temporal prediction check in the supplementary methods.",
+    "temporal_coverage": "Supporting data for the supplementary temporal-prediction methods, not an active main-figure panel. The separate fit-through-2022 experiment is evaluated over available observations in the 36-month 2023-2025 window per country. Nine missing UK months are excluded, giving 27 UK observations and 315 pooled country-months. Verify archived interval-coverage flags and summary proportions against the month-level predictive endpoints. Retain actual coverage for nominal 50%, 80% and 95% intervals and the observed-minus-nominal difference in percentage points. Coverage is descriptive, not an independent-country uncertainty interval. No model, predictive draws or observation data are regenerated.",
+    "vaccination": "Supporting programme context and the archived earlier panel-c candidate, not an active main-figure panel. Use the WUENIC DTP3 annual estimates also underlying Supplementary Figure 13: 2019, the minimum over 2020-2024, and 2024. All nine countries have the complete required six-year series. Convert fractions to percent without clipping, interpolation, administrative-estimate substitution or 2025 carry-forward. The minimum can occur in 2024 and can equal the endpoint. Connecting segments span these selected values, not uncertainty. This supplies routine programme context, not a causal estimate of vaccination effects on resurgence."
+  },
+  "outputs": [
+    {
+      "file": "figure_1_context_regional.csv",
+      "rows": 6,
+      "sha256": "611c50c1005dbc8e36920624b32cd7ed90920d5a7587314f7049c01db985e4ab"
+    },
+    {
+      "file": "figure_1_context_baselines.csv",
+      "rows": 27,
+      "sha256": "01e2a3eddc2881cf64b73e0b7fdb439975e498ca062e6fad266e91ce11b57888"
+    },
+    {
+      "file": "figure_1_context_selection.csv",
+      "rows": 4,
+      "sha256": "d498db7c77d253266b749f3eae328c213adebb38d361b187bd3094b81e13c6db"
+    },
+    {
+      "file": "figure_1_context_income.csv",
+      "rows": 5,
+      "sha256": "9651dcc9555b123a6541eb556dda493f058219bfc1f1d0072cad667f049e96e8"
+    },
+    {
+      "file": "figure_1_context_coverage.csv",
+      "rows": 24,
+      "sha256": "81e8fc6ed86786791d421bc23871f24fff2f797f0e821d45682d642cddc3b0b1"
+    },
+    {
+      "file": "figure_1_context_monthly.csv",
+      "rows": 1188,
+      "sha256": "0d617807309bda84a97c3974419b7a0e22bfbe9527601f6894e75d869e859aef"
+    },
+    {
+      "file": "figure_1_context_temporal_coverage.csv",
+      "rows": 30,
+      "sha256": "307e67fe0d700b9fc55a5de76cce1e9ac392b8c381db78e7d8f30c3f883ed5d7"
+    },
+    {
+      "file": "figure_1_context_vaccination.csv",
+      "rows": 27,
+      "sha256": "5fb4466b219ccb143ce4db4d866fa184e0f020d963b26de6f5f0799e5dcb5b0b"
+    }
+  ]
+}

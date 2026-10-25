@@ -4,7 +4,7 @@ Public analysis code and shareable aggregate data for pertussis-notification dyn
 
 ## Scope
 
-This repository contains custom Python, Stan and R code, processed non-identifiable inputs, a sanitized provenance registry, and compact model-generated outputs. It deliberately excludes manuscripts, supplementary materials, figures, tables, peer-review records, submission material, and internal release checks.
+This repository contains custom Python, Stan and R code, processed non-identifiable inputs, a sanitized provenance registry, and compact model-generated outputs. It excludes manuscript drafts, supplementary materials, rendered figures and tables, peer-review records, submission material, and internal release checks. A small frozen set of aggregate Figure 1 source-data exports is distributed under `outputs/figure_data/` so the public Figure 1 renderer has its required inputs.
 
 Third-party raw snapshots, logs, compiled executables, and oversized posterior-predictive artefacts are also excluded. See [DATA_ACCESS.md](DATA_ACCESS.md) and [LICENSING.md](LICENSING.md).
 
@@ -15,7 +15,7 @@ Third-party raw snapshots, logs, compiled executables, and oversized posterior-p
 | `script/` | Analysis code, Stan models, and tests |
 | `data/clean/` | Processed aggregate metadata |
 | `data/provenance/` | Sanitized source registry |
-| `outputs/` | Compact model-generated results |
+| `outputs/` | Compact model-generated results and the frozen Figure 1 source-data exports under `outputs/figure_data/` |
 
 ## Setup
 
@@ -43,5 +43,4 @@ Git commit for the exact public version. No archival DOI has been assigned.
 
 This is a selective code and aggregate-data snapshot, not a self-contained
 end-to-end reproduction bundle. Full regeneration requires separately retrieved
-third-party data and preparation steps. Some historical figure and manuscript
-build scripts refer to assets deliberately omitted from this repository.
+third-party data and preparation steps. The public Figure 1 renderer uses the frozen exports under `outputs/figure_data/`; other historical figure and manuscript build scripts still refer to assets deliberately omitted from this repository.

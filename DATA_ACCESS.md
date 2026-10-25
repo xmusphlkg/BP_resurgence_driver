@@ -2,11 +2,11 @@
 
 ## Public content
 
-This repository includes custom analysis code, processed aggregate inputs, sanitized provenance metadata, and compact model-generated outputs. It does not contain identifiable participant-level records.
+This repository includes custom analysis code, processed aggregate inputs, sanitized provenance metadata, compact model-generated outputs, and frozen aggregate source data for the public Figure 1 renderer. It does not contain identifiable participant-level records.
 
 ## Exclusions
 
-The public release deliberately excludes manuscript drafts and supplements, peer-review and submission material, internal audit records, raw third-party snapshots, local logs, compiled executables, and large draw-level posterior-predictive artefacts.
+The public release deliberately excludes manuscript drafts and supplements, rendered manuscript figures and tables, peer-review and submission material, internal audit records, raw third-party snapshots, local logs, compiled executables, and large draw-level posterior-predictive artefacts.
 
 ## Reused sources
 
@@ -15,7 +15,7 @@ The public release deliberately excludes manuscript drafts and supplements, peer
 ## Current derived results
 
 Selected numerical benchmark and sensitivity results are distributed under
-`outputs/`. The matched latent-ratio input is in
+`outputs/`. Figure 1 source-data exports are in `outputs/figure_data/`; the matched latent-ratio input is in
 `data/derived/matched_latent_ratios.csv`. These are aggregate or simulated
 analytical records. Internal run manifests containing working-tree state,
 review correspondence and submission records are not distributed.
